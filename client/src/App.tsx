@@ -1,19 +1,21 @@
-import { Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import './App.css';
-import LandingPage from './pages/LandingPage';
-import OnboardingPage from './pages/OnboardingPage';
-import DashboardPage from './pages/DashboardPage';
-import NewContractPage from './pages/NewContractPage';
-import ContractDetailPage from './pages/ContractDetailPage';
-import ProfilePage from './pages/ProfilePage';
-import NotFoundPage from './pages/NotFoundPage';
-import VestingPage from './pages/VestingPage';
-import { useAuthStore } from './store/useAuthStore';
-import { usePrivy } from '@privy-io/react-auth';
+import { Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import "./App.css";
+import LandingPage from "./pages/LandingPage";
+import OnboardingPage from "./pages/OnboardingPage";
+import DashboardPage from "./pages/DashboardPage";
+import NewContractPage from "./pages/NewContractPage";
+import ContractDetailPage from "./pages/ContractDetailPage";
+import ProfilePage from "./pages/ProfilePage";
+import NotFoundPage from "./pages/NotFoundPage";
+import VestingPage from "./pages/VestingPage";
+import { useAuthStore } from "./store/useAuthStore";
+import { usePrivy } from "@privy-io/react-auth";
+import { Layout } from "./Layout";
 
 function App() {
-  const { initializeAuth, handlePrivyLogin, handlePrivyLogout } = useAuthStore();
+  const { initializeAuth, handlePrivyLogin, handlePrivyLogout } =
+    useAuthStore();
   const { ready, authenticated, user } = usePrivy();
   const [isInitializing, setIsInitializing] = useState(true);
 
@@ -52,19 +54,22 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <Layout>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/new-contract" element={<NewContractPage />} />
-        <Route path="/contract-detail/:contractAddress" element={<ContractDetailPage />} />
+        <Route
+          path="/contract-detail/:contractAddress"
+          element={<ContractDetailPage />}
+        />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/vesting" element={<VestingPage />} />
+        {/* <Route path="/vesting" element={<VestingPage />} /> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </div>
+    </Layout>
   );
 }
 
-export default App; 
+export default App;

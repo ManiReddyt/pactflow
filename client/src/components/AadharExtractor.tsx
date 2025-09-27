@@ -24,22 +24,11 @@ function AadhaarExtractor() {
     }
   }, [latestProof, setLatestProof]);
   return (
-    <div className="rounded-2xl border border-[#e5e7eb] p-4 bg-white">
-      <div>
-        <LogInWithAnonAadhaar
-          nullifierSeed={1234567890}
-          fieldsToReveal={[
-            "revealAgeAbove18",
-            "revealGender",
-            "revealPinCode",
-            "revealState",
-          ]}
-        />
-      </div>
-      <div className="mt-4">
-        <div className="text-sm text-[#6b7280]">Verification Status</div>
+    <div className="flex justify-between rounded-2xl border border-[#e5e7eb] p-4 bg-white">
+      <div className="flex items-center gap-2">
+        <div className="text-sm text-[#6b7280]">Status</div>
         <div
-          className={`mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm ${anonAadhaar.status === "logged-in" ? "bg-green-50 text-green-700" : anonAadhaar.status === "logging-in" ? "bg-yellow-50 text-yellow-700" : "bg-gray-100 text-gray-600"}`}
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm ${anonAadhaar.status === "logged-in" ? "bg-green-50 text-green-700" : anonAadhaar.status === "logging-in" ? "bg-yellow-50 text-yellow-700" : "bg-gray-100 text-gray-600"}`}
         >
           <span
             className={`h-2 w-2 rounded-full ${anonAadhaar.status === "logged-in" ? "bg-[#1cdc77]" : anonAadhaar.status === "logging-in" ? "bg-yellow-500" : "bg-gray-400"}`}
@@ -51,6 +40,15 @@ function AadhaarExtractor() {
           </span>
         </div>
       </div>
+      <LogInWithAnonAadhaar
+        nullifierSeed={1234567890}
+        fieldsToReveal={[
+          "revealAgeAbove18",
+          "revealGender",
+          "revealPinCode",
+          "revealState",
+        ]}
+      />
       {latestProof && (
         <div className="mt-4">
           <div className="text-sm font-medium text-[#141e41]">

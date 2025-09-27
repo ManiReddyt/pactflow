@@ -400,29 +400,11 @@ function ContractDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f9fafb] text-[#141e41]">
-      <div className="flex min-h-screen">
-        <Sidebar />
-
-        <div className="flex-1 flex flex-col min-w-0">
-          <header className="bg-white sticky top-0 z-[999] border-b border-[#e5e7eb] px-4 sm:px-6 py-4 flex items-center justify-between">
-            <div className="md:hidden">
-              <button className="rounded-lg border border-[#e5e7eb] px-3 py-2">
-                Menu
-              </button>
-            </div>
-            <div className="font-semibold">Contract Details</div>
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="text-sm text-[#9695a7] hover:text-[#141e41]"
-            >
-              Back to Dashboard
-            </button>
-          </header>
-
+    <div className="text-[#141e41]">
+      <div className="flex ">
+        <div className="flex-1 flex flex-col ">
           <main className="flex-1 p-4 sm:p-6">
-            <div className="max-w-7xl mx-auto">
-              {/* Loading State */}
+            <div className="">
               {(isLoading || blockchainLoading) && (
                 <div className="flex items-center justify-center py-8">
                   <div className="w-8 h-8 border-4 border-[#e5e7eb] border-t-[#1c01fe] rounded-full animate-spin"></div>
