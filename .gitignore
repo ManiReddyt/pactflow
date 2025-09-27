@@ -1,0 +1,15 @@
+server/node_modules
+server/.yarn
+server/.yarnrc.yml
+server/.env
+
+client/node_modules
+client/.yarnrc.yml
+client/.yarn
+client/.env
+client/dist
+client/public/aadhaar-verifier.wasm
+client/public/circuit_final.zkey.DS_Store
+client/public/circuit_final.zkey
+
+.DS_Store
