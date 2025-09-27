@@ -1,0 +1,189 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Contract Lock Confidential AI Chat API",
+    "version": "1.0.0",
+    "description": "Session-scoped confidential AI chat endpoints. Sessions expire if not polled within TTL."
+  },
+  "servers": [
+    { "url": "http://localhost:8000", "description": "Local server" }
+  ],
+  "paths": {
+    "/sessions/start": {
+      "post": {
+        "summary": "Start a confidential chat session and upload contract",
+        "operationId": "startSession",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "document": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Encrypted contract file for this chat session"
+                  }
+                },
+                "required": ["document"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Session created and document cached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "session_id": { "type": "string", "format": "uuid" },
+                    "document_uri": { "type": "string" }
+                  },
+                  "required": ["session_id", "document_uri"]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/sessions/poll": {
+      "get": {
+        "summary": "Poll to keep the session alive and check readiness",
+        "operationId": "pollSession",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "active": { "type": "boolean" },
+                    "has_document": { "type": "boolean" }
+                  },
+                  "required": ["active"]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/sessions/message": {
+      "post": {
+        "summary": "Send a prompt to the AI within a session",
+        "operationId": "postMessage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MessageBody" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Model reply",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "reply": { "type": "string" } },
+                  "required": ["reply"]
+                }
+              }
+            }
+          },
+          "410": { "$ref": "#/components/responses/Gone" },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/sessions/end": {
+      "post": {
+        "summary": "End and purge a session",
+        "operationId": "endSession",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/EndBody" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Session terminated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "ended": { "type": "boolean" } },
+                  "required": ["ended"]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MessageBody": {
+        "type": "object",
+        "properties": {
+          "session_id": { "type": "string" },
+          "prompt": { "type": "string" }
+        },
+        "required": ["session_id", "prompt"]
+      },
+      "EndBody": {
+        "type": "object",
+        "properties": { "session_id": { "type": "string" } },
+        "required": ["session_id"]
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": { "detail": { "type": "string" } },
+              "required": ["detail"]
+            }
+          }
+        }
+      },
+      "Gone": {
+        "description": "Session is invalid or expired",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": { "detail": { "type": "string" } },
+              "required": ["detail"]
+            }
+          }
+        }
+      }
+    }
+  }
+}

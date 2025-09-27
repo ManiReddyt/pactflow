@@ -40,7 +40,6 @@ function NewContractPage() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    recipientAddress: "",
     recipientEmail: "",
   });
   const [file, setFile] = useState<File | null>(null);
@@ -143,10 +142,10 @@ function NewContractPage() {
       return;
     }
 
-    if (!formData.recipientAddress.trim()) {
-      setContractError("Please enter recipient address.");
-      return;
-    }
+    // if (!formData.recipientAddress.trim()) {
+    //   setContractError("Please enter recipient address.");
+    //   return;
+    // }
 
     if (!formData.recipientEmail.trim()) {
       setContractError("Please enter recipient email.");
@@ -168,15 +167,18 @@ function NewContractPage() {
         });
       }, 200);
 
+      const { user } = await apiService.getUserByEmail(formData.recipientEmail);
+      const recipientAddress = user.evm_address;
+
       console.log("🚀 Starting contract creation process");
       console.log("📋 Form data:", formData);
       console.log("📄 Selected file:", file.name, file.size, "bytes");
 
       // Encrypt file with Lit (no wallet required for encryption)
-      const acc = accForSingleAddress(formData.recipientAddress);
+      const acc = accForSingleAddress(recipientAddress);
       console.log(
         "🔑 Generated access control conditions for:",
-        formData.recipientAddress
+        recipientAddress
       );
 
       const { ciphertext, dataToEncryptHash } = await encryptFileWithLit(
@@ -225,7 +227,7 @@ function NewContractPage() {
       console.log("File Name:", file.name);
       console.log("Document Title:", formData.title);
       console.log("Document Description:", formData.description);
-      console.log("Intended Signer:", formData.recipientAddress);
+      console.log("Intended Signer:", recipientAddress);
       console.log("Document Content Hash:", documentContentHash);
       console.log("IPFS Gateway URL:", response.gatewayUrl);
       console.log("================================");
@@ -242,7 +244,7 @@ function NewContractPage() {
           file.name, // _fileName
           formData.title, // _documentTitle
           formData.description, // _documentDescription
-          formData.recipientAddress as `0x${string}`, // _intendedSigner
+          recipientAddress as `0x${string}`, // _intendedSigner
           documentContentHash, // _documentContentHash
         ],
       });
@@ -289,7 +291,7 @@ function NewContractPage() {
       const creatorFingerprint = `creator_${user.uid}_${Date.now()}`;
 
       // Generate fingerprint for recipient (will be updated when they sign)
-      const recipientFingerprint = `recipient_${formData.recipientAddress}_${Date.now()}`;
+      const recipientFingerprint = `recipient_${recipientAddress}_${Date.now()}`;
 
       // Create contract data
       const contractData = {
@@ -300,7 +302,7 @@ function NewContractPage() {
         fingerprint: creatorFingerprint,
         recipients: [
           {
-            address: formData.recipientAddress,
+            address: recipientAddress,
             mail: formData.recipientEmail,
             fingerprint: recipientFingerprint,
           },
@@ -419,7 +421,7 @@ function NewContractPage() {
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div>
+                    {/* <div>
                       <label className="block text-sm font-medium text-[#141e41] mb-2">
                         Recipient Address
                       </label>
@@ -432,7 +434,7 @@ function NewContractPage() {
                         className="w-full rounded-xl border border-[#e5e7eb] bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#1c01fe]"
                         placeholder="0x..."
                       />
-                    </div>
+                    </div> */}
 
                     <div>
                       <label className="block text-sm font-medium text-[#141e41] mb-2">

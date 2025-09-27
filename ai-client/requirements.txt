@@ -1,0 +1,4 @@
+google-genai
+uvicorn
+fastapi
+python-multipart
