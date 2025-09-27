@@ -56,7 +56,7 @@ function ContractDetailPage() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const chat = useChat({
     onSessionEnd: () => {
-      console.log('Chat session ended');
+      console.log("Chat session ended");
     },
   });
 
@@ -99,9 +99,9 @@ function ContractDetailPage() {
       try {
         await chat.startSession(blob);
         setIsChatOpen(true);
-        console.log('AI chat session started with decrypted document');
+        console.log("AI chat session started with decrypted document");
       } catch (chatError) {
-        console.error('Failed to start AI chat session:', chatError);
+        console.error("Failed to start AI chat session:", chatError);
         // Don't throw - PDF decryption was successful
       }
     } catch (e) {
@@ -169,15 +169,16 @@ function ContractDetailPage() {
           functionName: "owner",
         }),
         // Only call getSign if the owner address doesn't match the current user's address
-        ...(walletAddress
-          ? [
-              publicClient.readContract({
-                address: contractAddress as `0x${string}`,
-                abi: DEPLOYED_CONTRACT_ABI,
-                functionName: "getSign",
-              }),
-            ]
-          : [""]),
+        // ...(walletAddress
+        //   ? [
+        //       publicClient.readContract({
+        //         address: contractAddress as `0x${string}`,
+        //         abi: DEPLOYED_CONTRACT_ABI,
+        //         functionName: "getSign",
+        //       }),
+        //     ]
+        //   :
+        "",
       ]);
 
       // Save all blockchain data in state
@@ -202,7 +203,7 @@ function ContractDetailPage() {
     } finally {
       setBlockchainLoading(false);
     }
-  }, [contractAddress, publicClient, walletAddress]);
+  }, [contractAddress, publicClient]);
 
   // Check authentication
   useEffect(() => {
@@ -544,7 +545,10 @@ function ContractDetailPage() {
                                   try {
                                     await chat.startSession(decryptedBlob);
                                   } catch (error) {
-                                    console.error('Failed to start chat session:', error);
+                                    console.error(
+                                      "Failed to start chat session:",
+                                      error
+                                    );
                                   }
                                 }
                                 setIsChatOpen(true);
@@ -559,10 +563,22 @@ function ContractDetailPage() {
                                 </>
                               ) : (
                                 <>
-                                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4z" />
+                                  <svg
+                                    className="w-4 h-4 mr-2"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4z"
+                                    />
                                   </svg>
-                                  {chat.sessionId ? 'Open AI Chat' : 'Chat with AI'}
+                                  {chat.sessionId
+                                    ? "Open AI Chat"
+                                    : "Chat with AI"}
                                 </>
                               )}
                             </button>
@@ -868,7 +884,10 @@ function ContractDetailPage() {
                                 try {
                                   await chat.startSession(decryptedBlob);
                                 } catch (error) {
-                                  console.error('Failed to start chat session:', error);
+                                  console.error(
+                                    "Failed to start chat session:",
+                                    error
+                                  );
                                 }
                               }
                               setIsChatOpen(true);
@@ -896,7 +915,9 @@ function ContractDetailPage() {
                                     d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-4 4z"
                                   />
                                 </svg>
-                                {chat.sessionId ? 'Open AI Chat' : 'Chat with AI'}
+                                {chat.sessionId
+                                  ? "Open AI Chat"
+                                  : "Chat with AI"}
                               </>
                             )}
                           </button>

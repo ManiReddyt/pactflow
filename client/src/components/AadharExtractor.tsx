@@ -3,20 +3,18 @@ import {
   useAnonAadhaar,
   useProver,
 } from "@anon-aadhaar/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAnonAadhaarStore } from "../store/useAnonAadhaarStore";
 
 function AadhaarExtractor() {
   const [anonAadhaar] = useAnonAadhaar();
   const [, latestProof] = useProver();
-  const [isLoading] = useState(false);
-  const [error] = useState<string | null>(null);
   const setStatus = useAnonAadhaarStore((s) => s.setStatus);
   const setLatestProof = useAnonAadhaarStore((s) => s.setLatestProof);
 
   useEffect(() => {
     if (anonAadhaar?.status) {
-      setStatus(anonAadhaar.status as any);
+      setStatus(anonAadhaar.status);
     }
   }, [anonAadhaar?.status, setStatus]);
 
