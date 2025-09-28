@@ -1,23 +1,23 @@
-# Multi-stage build for TypeScript compilation
-FROM node:20.9.0
+# Simple single-stage build - using standard Node image
+FROM node:20
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies for native modules
-RUN apk add --no-cache python3 make g++
+# Copy package files first for better caching
+COPY package*.json yarn.lock ./
 
-# Install Yarn 4.5.1
-RUN corepack enable && corepack prepare yarn@4.5.1 --activate
-
-# Copy package files
-COPY . .
-
-# Install all dependencies (including dev dependencies for build)
+# Install dependencies
 RUN yarn install
+
+# Copy source code
+COPY . .
 
 # Build TypeScript
 RUN yarn build
+
+# Expose port (adjust if needed)
+EXPOSE 3000
 
 # Start the application
 CMD ["node", "dist/index.js"]
