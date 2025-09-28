@@ -18,23 +18,16 @@ This guide covers different deployment options for the ContractLock server using
    cd contract-lock/server
    ```
 
-2. **Build the application**
+2. **Start services with Docker Compose**
 
    ```bash
-   # Build TypeScript
-   yarn build
-
-   # Or if you don't have yarn installed
-   npm run build
-   ```
-
-3. **Start services with Docker Compose**
-
-   ```bash
+   # The Dockerfile will automatically build the TypeScript code
    docker-compose up -d
    ```
 
-4. **Verify deployment**
+   **Note**: The Dockerfile uses a multi-stage build that automatically compiles the TypeScript code, so you don't need to run `yarn build` manually.
+
+3. **Verify deployment**
 
    ```bash
    # Check if services are running
