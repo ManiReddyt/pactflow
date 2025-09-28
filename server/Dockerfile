@@ -8,8 +8,8 @@ WORKDIR /app
 RUN corepack enable
 
 # Copy package files first for better caching
-COPY package.json yarn.lock ./
-COPY .yarnrc.yml ./ 2>/dev/null || true
+COPY package.json yarn.lock .yarnrc.yml  ./
+
 
 # Install all dependencies with node-modules linker for better Docker compatibility
 RUN YARN_ENABLE_GLOBAL_CACHE=false yarn install
