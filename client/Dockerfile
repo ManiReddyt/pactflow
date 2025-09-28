@@ -21,7 +21,7 @@ RUN yarn install
 COPY . .
 
 # Expose port 3000
-EXPOSE 3000
+EXPOSE 5173
 
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
