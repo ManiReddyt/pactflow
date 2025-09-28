@@ -1,5 +1,5 @@
 # Multi-stage build for TypeScript compilation
-FROM node:18-alpine AS builder
+FROM node:20.9.0-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -24,7 +24,7 @@ COPY tsconfig.json ./
 RUN yarn build
 
 # Production stage
-FROM node:18-alpine AS production
+FROM node:20.9.0-alpine AS production
 
 # Set working directory
 WORKDIR /app

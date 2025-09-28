@@ -19,7 +19,7 @@
   "license": "ISC",
   "type": "commonjs",
   "engines": {
-    "node": ">=18",
+    "node": "20.9.0",
     "yarn": "4.5.1"
   },
   "packageManager": "yarn@4.5.1",
