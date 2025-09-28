@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
 import {
   Clock,
   FileText,
@@ -26,7 +25,6 @@ function DashboardPage() {
   } = useContractStore();
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState<"issued" | "received">("issued");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -117,10 +115,7 @@ function DashboardPage() {
 
   const totalPages = Math.ceil(filteredContracts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedContracts = filteredContracts.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const paginatedContracts = filteredContracts;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -155,11 +150,6 @@ function DashboardPage() {
     alert("Sort functionality not implemented");
   };
 
-  const handleDownloadCSV = () => {
-    // Implement CSV download logic here
-    alert("Download CSV functionality not implemented");
-  };
-
   return (
     <div className="text-[#141e41]">
       <div className="flex min-h-screen">
@@ -169,43 +159,37 @@ function DashboardPage() {
               {/* Overall Contracts */}
               <div className="rounded-2xl border border-[#e5e7eb] bg-white p-5 flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm text-[#9695a7]">
-                    Overall Contracts
-                  </div>
+                  <div className="text-md text-[#141e41]">Overall</div>
                   <div className="mt-1 text-2xl font-bold">{stats.total}</div>
                 </div>
                 <div className="bg-indigo-100 text-indigo-600 rounded-xl p-3">
                   <FileText size={28} />
                 </div>
               </div>
-              {/* Pending Contracts */}
+              {/* Pending  */}
               <div className="rounded-2xl border border-[#e5e7eb] bg-white p-5 flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm text-[#9695a7]">
-                    Pending Contracts
-                  </div>
-                  <div className="mt-1 text-2xl font-bold">{stats.pending}</div>
+                  <div className="text-md text-[#141e41]">Pending</div>
+                  <div className="text-2xl font-bold">{stats.pending}</div>
                 </div>
                 <div className="bg-yellow-100 text-yellow-600 rounded-xl p-3">
                   <Clock size={28} />
                 </div>
               </div>
-              {/* Signed Contracts */}
+              {/* Signed  */}
               <div className="rounded-2xl border border-[#e5e7eb] bg-white p-5 flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm text-[#9695a7]">Signed Contracts</div>
+                  <div className="text-md text-[#141e41]">Signed </div>
                   <div className="mt-1 text-2xl font-bold">{stats.signed}</div>
                 </div>
                 <div className="bg-blue-100 text-blue-600 rounded-xl p-3">
                   <PenLine size={28} />
                 </div>
               </div>
-              {/* Received Contracts */}
+              {/* Received  */}
               <div className="rounded-2xl border border-[#e5e7eb] bg-white p-5 flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm text-[#9695a7]">
-                    Received Contracts
-                  </div>
+                  <div className="text-md text-[#141e41]">Received</div>
                   <div className="mt-1 text-2xl font-bold">
                     {stats.received}
                   </div>
@@ -336,10 +320,12 @@ function DashboardPage() {
                               {Array.isArray(contract.parties)
                                 ? contract.parties.join(", ")
                                 : ""}{" "}
-                              • Last updated: {contract.lastUpdated}
+                            </div>
+                            <div className="ml-auto text-sm text-[#9695a7] text-right">
+                              Last updated: {contract.lastUpdated}
                             </div>
                           </div>
-                          <button
+                          {/* <button
                             onClick={() =>
                               navigate(
                                 `/contract-detail/${contract.contract_address}`
@@ -348,7 +334,7 @@ function DashboardPage() {
                             className="rounded-lg border border-[#e5e7eb] px-3 py-2 hover:bg-[#f4f4f5] text-sm"
                           >
                             Open
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     ))
@@ -361,13 +347,13 @@ function DashboardPage() {
                 <div className="flex items-center justify-between mt-6">
                   <div className="text-sm text-[#9695a7]">
                     Showing {startIndex + 1} to{" "}
-                    {Math.min(
+                    {Math.max(
                       startIndex + itemsPerPage,
                       filteredContracts.length
                     )}{" "}
                     of {filteredContracts.length} contracts
                   </div>
-                  <div className="flex space-x-2">
+                  {/* <div className="flex space-x-2">
                     <button
                       onClick={() =>
                         setCurrentPage((prev) => Math.max(prev - 1, 1))
@@ -389,7 +375,7 @@ function DashboardPage() {
                     >
                       Next
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>

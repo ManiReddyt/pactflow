@@ -2,13 +2,13 @@ import {
   encryptFileWithLit,
   accForSingleAddress,
 } from "../services/irysLitClient";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { useContractStore } from "../store/useContractStore";
 import apiService from "../services/api";
 import { encodeFunctionData, createPublicClient, http } from "viem";
-import { baseSepolia } from "viem/chains";
+import { celoSepolia } from "viem/chains";
 import { CONTRACT_ABI } from "../constants/NewContractABI";
 import { usePrivyWallet } from "../hooks/usePrivyWallet";
 
@@ -21,18 +21,16 @@ function NewContractPage() {
     walletAddress,
     walletClient,
     sendTransaction,
-    connectedWallet,
     switchToChain84532,
   } = usePrivyWallet();
 
   // Contract configuration
   const CONTRACT_ADDRESS =
-    "0x7a433597186f4958da4eb37cff3eaecec135dee0" as const;
-  const BASE_SEPOLIA_CHAIN_ID = 84532; // Base Sepolia chain ID
+    "0x5FB367B2189dB79E94B3AA4aCAfFD8c7406632b9" as const;
 
   // Create public client for reading transaction receipts
   const publicClient = createPublicClient({
-    chain: baseSepolia,
+    chain: celoSepolia,
     transport: http(),
   });
 
@@ -63,6 +61,12 @@ function NewContractPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  useEffect(() => {
+    switchToChain84532().then(() => {
+      console.log("wallet switched");
+    });
+  }, [switchToChain84532]);
+
   // Check authentication and wallet connection
   if (!isAuthenticated || !user) {
     navigate("/onboarding");
@@ -85,41 +89,6 @@ function NewContractPage() {
           >
             Go to Dashboard
           </button>
-        </div>
-      </div>
-    );
-  }
-  if (
-    connectedWallet.chainId !== BASE_SEPOLIA_CHAIN_ID.toString() &&
-    connectedWallet.chainId !== `eip155:${BASE_SEPOLIA_CHAIN_ID}`
-  ) {
-    return (
-      <div className="min-h-screen bg-[#f9fafb] flex items-center justify-center">
-        <div className="bg-white rounded-2xl border border-[#e5e7eb] p-8 max-w-md w-full mx-4 text-center">
-          <h3 className="text-lg font-semibold text-[#141e41] mb-2">
-            Wrong Network
-          </h3>
-          <p className="text-sm text-[#6b7280] mb-4">
-            Please switch to Base Sepolia network to create a contract.
-          </p>
-          <p className="text-xs text-[#9695a7] mb-4">
-            Current Chain ID: {connectedWallet.chainId} | Required:{" "}
-            {BASE_SEPOLIA_CHAIN_ID.toString()}
-          </p>
-          <div className="w-full flex items-center gap-1">
-            <button
-              onClick={switchToChain84532}
-              className="px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700"
-            >
-              Switch to Base Sepolia
-            </button>
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="px-6 py-3 rounded-xl ml-1 bg-indigo-600 text-white font-medium hover:bg-indigo-700"
-            >
-              Go to Dashboard
-            </button>
-          </div>
         </div>
       </div>
     );

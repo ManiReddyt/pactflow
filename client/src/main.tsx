@@ -7,7 +7,7 @@ import { AnonAadhaarProvider } from "@anon-aadhaar/react";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PrivyProvider } from "@privy-io/react-auth";
-import { baseSepolia, sepolia, mainnet } from "wagmi/chains";
+import { celoSepolia } from "wagmi/chains";
 import { config } from "./config/wagmi";
 import logo from "./assets/blue.png";
 
@@ -32,9 +32,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           requireUserPasswordOnCreate: false,
         },
         // Default chain for embedded wallets
-        defaultChain: baseSepolia,
+        defaultChain: celoSepolia,
         // Supported chains
-        supportedChains: [baseSepolia, sepolia, mainnet],
+        supportedChains: [celoSepolia],
       }}
     >
       <AnonAadhaarProvider
