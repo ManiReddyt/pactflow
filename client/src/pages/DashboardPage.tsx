@@ -74,20 +74,6 @@ function DashboardPage() {
 
   // Transform contracts to include type information and filter
   const transformedContracts = [
-    // Issued contracts (created by user)
-    ...safeContracts.map((contract) => ({
-      ...contract,
-      type: "issued" as const,
-      // Add computed fields for display
-      createdDate: formatDate(contract?.created_at),
-      lastUpdated: formatDate(contract?.updated_at),
-      parties: [
-        user?.username || "You",
-        ...(Array.isArray(contract?.recipients)
-          ? contract.recipients.map((r: any) => r?.mail ?? "")
-          : []),
-      ],
-    })),
     // Received contracts (where user is recipient)
     ...safeReceivedContracts.map((contract) => ({
       ...contract,
@@ -97,6 +83,20 @@ function DashboardPage() {
       lastUpdated: formatDate(contract?.updated_at),
       parties: [
         contract?.creator_uid ?? "",
+        ...(Array.isArray(contract?.recipients)
+          ? contract.recipients.map((r: any) => r?.mail ?? "")
+          : []),
+      ],
+    })),
+    // Issued contracts (created by user)
+    ...safeContracts.map((contract) => ({
+      ...contract,
+      type: "issued" as const,
+      // Add computed fields for display
+      createdDate: formatDate(contract?.created_at),
+      lastUpdated: formatDate(contract?.updated_at),
+      parties: [
+        user?.username || "You",
         ...(Array.isArray(contract?.recipients)
           ? contract.recipients.map((r: any) => r?.mail ?? "")
           : []),

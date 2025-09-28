@@ -16,6 +16,7 @@ import { BlockChainData } from "./BlockChainData";
 import { ContractInformation } from "./ContractInformation";
 import { DocPreview } from "./DocPreview";
 import { Actions } from "./Actions";
+import { ShowSuccess } from "./ShowSuccess";
 // import { ShowSuccess } from "./ShowSuccess";
 
 export interface BlockchainContractData {
@@ -36,7 +37,7 @@ function ContractDetailPage() {
   const { contractAddress } = useParams<{ contractAddress: string }>();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuthStore();
-  const { currentContract, fetchContract, signContract, isLoading, error } =
+  const { currentContract, fetchContract, isLoading, error } =
     useContractStore();
   const { walletAddress, signMessage } = usePrivyWallet();
 
@@ -50,6 +51,7 @@ function ContractDetailPage() {
   const [decryptError, setDecryptError] = useState<string | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [decryptedBlob, setDecryptedBlob] = useState<Blob | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Chat state
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -487,7 +489,7 @@ function ContractDetailPage() {
               )}
 
               {/* Success State */}
-              {/* {showSuccess && <ShowSuccess />} */}
+              {showSuccess && <ShowSuccess />}
 
               {/* Error State */}
               {(error || blockchainError) && (
@@ -526,6 +528,7 @@ function ContractDetailPage() {
                       decryptedBlob={decryptedBlob}
                       chat={chat}
                       setIsChatOpen={setIsChatOpen}
+                      showSuccessNotification={setShowSuccess}
                     />
                   </div>
 

@@ -13,6 +13,7 @@ export const Actions = ({
   decryptedBlob,
   chat,
   setIsChatOpen,
+  showSuccessNotification,
 }: {
   blockchainData: BlockchainContractData | null;
   selfApp: SelfApp | null;
@@ -21,6 +22,7 @@ export const Actions = ({
   decryptedBlob: Blob | null;
   chat: UseChatReturn | null;
   setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  showSuccessNotification: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { currentContract, signContract } = useContractStore();
   const { walletAddress } = useAuthStore();
@@ -32,6 +34,7 @@ export const Actions = ({
     }
     console.log("Updating database...");
     await signContract(currentContract.contract_address, walletAddress);
+    showSuccessNotification(true);
   };
   return (
     <div className="bg-white rounded-2xl border border-[#e5e7eb] p-6">
