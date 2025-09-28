@@ -7,6 +7,10 @@ WORKDIR /app
 # Copy package files first for better caching
 COPY package*.json yarn.lock ./
 
+# Enable Corepack for Yarn 4.5.1
+RUN corepack enable
+
+
 # Install dependencies
 RUN yarn install
 
