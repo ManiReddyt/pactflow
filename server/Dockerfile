@@ -1,5 +1,5 @@
 # Multi-stage build for TypeScript compilation
-FROM node:20.9.0-alpine
+FROM node:20.9.0
 
 # Set working directory
 WORKDIR /app
