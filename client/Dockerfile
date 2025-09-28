@@ -4,8 +4,8 @@ FROM node:20
 # Set working directory
 WORKDIR /app
 
-# Enable Corepack for Yarn 4.5.1
-RUN corepack enable
+# Enable Corepack and prepare Yarn 4.5.1 explicitly
+RUN corepack enable && corepack prepare yarn@4.5.1 --activate
 
 # Copy package files for dependency caching
 COPY package.json yarn.lock ./
