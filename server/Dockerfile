@@ -7,11 +7,14 @@ WORKDIR /app
 # Install dependencies for native modules
 RUN apk add --no-cache python3 make g++
 
+# Install Yarn 4.5.1
+RUN corepack enable && corepack prepare yarn@4.5.1 --activate
+
 # Copy package files
-COPY package.json yarn.lock ./
+COPY package.json .yarnrc.yml ./
 
 # Install all dependencies (including dev dependencies for build)
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # Copy source code
 COPY src/ ./src/
@@ -29,11 +32,14 @@ WORKDIR /app
 # Install dependencies for native modules
 RUN apk add --no-cache python3 make g++
 
+# Install Yarn 4.5.1
+RUN corepack enable && corepack prepare yarn@4.5.1 --activate
+
 # Copy package files
-COPY package.json yarn.lock ./
+COPY package.json .yarnrc.yml ./
 
 # Install only production dependencies
-RUN yarn install --frozen-lockfile --production && yarn cache clean
+RUN yarn install --production && yarn cache clean
 
 # Copy built files from builder stage
 COPY --from=builder /app/dist ./dist

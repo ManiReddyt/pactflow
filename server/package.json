@@ -18,6 +18,11 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18",
+    "yarn": "4.5.1"
+  },
+  "packageManager": "yarn@4.5.1",
   "dependencies": {
     "@pinata/sdk": "^2.1.0",
     "cors": "^2.8.5",
