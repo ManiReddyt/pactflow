@@ -238,6 +238,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/mongoose@npm:^5.11.97":
+  version: 5.11.97
+  resolution: "@types/mongoose@npm:5.11.97"
+  dependencies:
+    mongoose: "npm:*"
+  checksum: 10c0/333e692a39734948db700c76f25c7b088f46cb88ba940b80467313acf29752823ff9ed2870045c34e00559c38a4a3b5136ae6634da6dbe56c160a16a50e1dea0
+  languageName: node
+  linkType: hard
+
 "@types/ms@npm:*":
   version: 2.1.0
   resolution: "@types/ms@npm:2.1.0"
@@ -755,6 +764,7 @@ __metadata:
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^4.17.21"
     "@types/jsonwebtoken": "npm:^9.0.5"
+    "@types/mongoose": "npm:^5.11.97"
     "@types/multer": "npm:^2"
     "@types/node": "npm:^24.5.2"
     "@types/uuid": "npm:^9.0.7"
@@ -764,7 +774,6 @@ __metadata:
     jsonwebtoken: "npm:^9.0.2"
     mongoose: "npm:^8.0.3"
     multer: "npm:^2.0.2"
-    pinata: "npm:^2.5.0"
     ts-node-dev: "npm:^2.0.0"
     typescript: "npm:^5.3.3"
     uuid: "npm:^9.0.1"
@@ -1867,7 +1876,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^8.0.3":
+"mongoose@npm:*, mongoose@npm:^8.0.3":
   version: 8.18.2
   resolution: "mongoose@npm:8.18.2"
   dependencies:
@@ -2167,21 +2176,6 @@ __metadata:
   version: 4.0.3
   resolution: "picomatch@npm:4.0.3"
   checksum: 10c0/9582c951e95eebee5434f59e426cddd228a7b97a0161a375aed4be244bd3fe8e3a31b846808ea14ef2c8a2527a6eeab7b3946a67d5979e81694654f939473ae2
-  languageName: node
-  linkType: hard
-
-"pinata@npm:^2.5.0":
-  version: 2.5.0
-  resolution: "pinata@npm:2.5.0"
-  peerDependencies:
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: 10c0/3cf76dd1f637ce564f6c079878bafa7e1eda4868cb82bf9539b0eace26c9f50f50fadf1e5a53697edf3b81db6526697edabb931df8369980cd5abce1002feb42
   languageName: node
   linkType: hard
 

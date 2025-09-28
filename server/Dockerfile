@@ -1,23 +1,31 @@
-# Multi-stage build for TypeScript compilation
-FROM node:20.9.0
+# Simple single-stage build - using standard Node image
+FROM node:20
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies for native modules
-RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+# Enable Corepack for Yarn 4.5.1
+RUN corepack enable
 
-# Install Yarn 4.5.1
-RUN corepack enable && corepack prepare yarn@4.5.1 --activate
+# Copy package files first for better caching
+COPY package.json yarn.lock ./
+COPY .yarnrc.yml ./ 2>/dev/null || true
 
-# Copy package files
+# Install all dependencies with node-modules linker for better Docker compatibility
+RUN YARN_ENABLE_GLOBAL_CACHE=false yarn install
+
+# Copy rest of source code
 COPY . .
-
-# Install all dependencies (including dev dependencies for build)
-RUN yarn install
 
 # Build TypeScript
 RUN yarn build
+
+# Expose port 3000
+EXPOSE 3000
+
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/health || exit 1
 
 # Start the application
 CMD ["node", "dist/index.js"]

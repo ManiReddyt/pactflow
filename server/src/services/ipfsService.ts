@@ -1,4 +1,4 @@
-import { PinataSDK, UploadResponse } from "pinata";
+import { PinataSDK, UploadResponse } from "@pinata/sdk";
 
 class IPFSService {
   private pinata: PinataSDK | null = null;
