@@ -25,7 +25,7 @@ ENV CXX=g++
 RUN corepack enable && corepack prepare yarn@4.5.1 --activate
 
 # Copy ONLY package files for maximum dependency layer caching
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 # Configure yarn for optimal Docker performance
 RUN yarn config set nodeLinker node-modules && \
