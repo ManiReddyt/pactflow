@@ -1,6 +1,5 @@
 server/node_modules
 server/.yarn
-server/.yarnrc.yml
 server/.env
 server/dist
 
